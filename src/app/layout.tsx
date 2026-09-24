@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
+import { ToastContainer } from "react-toastify";
+import { FitLogProvider } from "@/context/FitLogContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,15 +31,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <Navbar/>
+      <body className="flex min-h-full flex-col">
+        <FitLogProvider>
+          <Navbar />
 
+          <div>{children}</div>
 
-
-
-       <div>
-         {children}
-       </div>
+          <ToastContainer />
+        </FitLogProvider>
       </body>
     </html>
   );

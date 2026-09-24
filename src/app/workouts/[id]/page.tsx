@@ -8,6 +8,7 @@ import {
 } from "react-icons/fi";
 
 import getWorksData from "@/lib/workouts";
+import WorkoutActions from "@/components/workouts/WorkoutActions";
 
 interface WorkoutDetailsProps {
   params: Promise<{
@@ -173,24 +174,8 @@ const WorkoutDetails = async ({ params }: WorkoutDetailsProps) => {
                   ))}
                 </ol>
               </div>
-
-              <div className="mt-6 flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[5px] bg-[#c8ff00] px-4 text-[9px] font-black uppercase tracking-wide text-black transition hover:bg-[#d5ff3d]"
-                >
-                  <FiPlus className="text-[12px]" />
-                  Add to today&apos;s plan
-                </button>
-
-                <button
-                  type="button"
-                  className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[5px] border border-white/12 bg-[#14171d] px-4 text-[9px] font-black uppercase tracking-wide text-[#aeb2ba] transition hover:border-[#c8ff00] hover:text-[#c8ff00]"
-                >
-                  <FiBookmark className="text-[11px]" />
-                  Save for later
-                </button>
-              </div>
+                  <WorkoutActions workout={workout} />
+              
             </div>
           </div>
         </section>
