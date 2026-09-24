@@ -1,14 +1,13 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import {
-  FiBookmark,
   FiClock,
-  FiPlus,
   FiStar,
   FiZap,
 } from "react-icons/fi";
 
-import getWorksData from "@/lib/workouts";
 import WorkoutActions from "@/components/workouts/WorkoutActions";
+import getWorksData from "@/lib/workouts";
 
 interface WorkoutDetailsProps {
   params: Promise<{
@@ -16,27 +15,19 @@ interface WorkoutDetailsProps {
   }>;
 }
 
-const WorkoutDetails = async ({ params }: WorkoutDetailsProps) => {
+const WorkoutDetails = async ({
+  params,
+}: WorkoutDetailsProps) => {
   const { id } = await params;
 
   const workouts = await getWorksData();
 
-  const workout = workouts.find((item) => item.id === Number(id));
+  const workout = workouts.find(
+    (item) => item.id === Number(id),
+  );
 
   if (!workout) {
-    return (
-      <main className="min-h-screen bg-[#090a0d] px-4 py-20 text-white">
-        <div className="mx-auto max-w-6xl text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c8ff00]">
-            FITLOG
-          </p>
-
-          <h1 className="mt-4 text-3xl font-black uppercase">
-            Workout Not Found
-          </h1>
-        </div>
-      </main>
-    );
+    notFound();
   }
 
   return (
@@ -45,7 +36,7 @@ const WorkoutDetails = async ({ params }: WorkoutDetailsProps) => {
         <section className="overflow-hidden rounded-[10px] border border-white/6 bg-[#0e1014]">
           <div className="grid lg:grid-cols-[46%_54%]">
             <div className="p-3 sm:p-4">
-              <div className="relative h-[430px] overflow-hidden rounded-lg sm:h-140 lg:h-[650px]">
+              <div className="relative h-[430px] overflow-hidden rounded-lg sm:h-[560px] lg:h-[650px]">
                 <Image
                   src={workout.image}
                   alt={workout.name}
@@ -77,74 +68,67 @@ const WorkoutDetails = async ({ params }: WorkoutDetailsProps) => {
                 ))}
               </div>
 
-              <div className="mt-5 rounded-[7px] border border-white/4 bg-[#14171d] px-4 py-1 sm:px-5">
-                <div className="flex min-h-9.5 items-center justify-between border-b border-white/[0.035]">
+              <div className="mt-5 rounded-[7px] border border-white/[0.04] bg-[#14171d] px-4 py-1 sm:px-5">
+                <div className="flex min-h-[38px] items-center justify-between border-b border-white/[0.035]">
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-[#555b66]">
                     Equipment
                   </span>
-
                   <span className="max-w-[55%] text-right text-[10px] font-semibold text-[#d6d8dc]">
                     {workout.equipment}
                   </span>
                 </div>
 
-                <div className="flex min-h-9.5 items-center justify-between border-b border-white/[0.035]">
+                <div className="flex min-h-[38px] items-center justify-between border-b border-white/[0.035]">
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-[#555b66]">
                     Difficulty
                   </span>
-
                   <span className="text-[10px] font-semibold text-[#d6d8dc]">
                     {workout.difficulty}
                   </span>
                 </div>
 
-                <div className="flex min-h-9.5 items-center justify-between border-b border-white/[0.035]">
+                <div className="flex min-h-[38px] items-center justify-between border-b border-white/[0.035]">
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-[#555b66]">
                     Sets
                   </span>
-
                   <span className="text-[10px] font-semibold text-[#d6d8dc]">
                     {workout.sets}
                   </span>
                 </div>
 
-                <div className="flex min-h-9.5 items-center justify-between border-b border-white/[0.035]">
+                <div className="flex min-h-[38px] items-center justify-between border-b border-white/[0.035]">
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-[#555b66]">
                     Reps
                   </span>
-
                   <span className="text-[10px] font-semibold text-[#d6d8dc]">
                     {workout.reps}
                   </span>
                 </div>
 
-                <div className="flex min-h-9.5 items-center justify-between border-b border-white/[0.035]">
+                <div className="flex min-h-[38px] items-center justify-between border-b border-white/[0.035]">
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-[#555b66]">
                     Duration
                   </span>
-
                   <span className="flex items-center gap-1 text-[10px] font-semibold text-[#d6d8dc]">
                     <FiClock className="text-[11px] text-[#c8ff00]" />
                     {workout.duration} min
                   </span>
                 </div>
 
-                <div className="flex min-h-9.5 items-center justify-between border-b border-white/[0.035]">
+                <div className="flex min-h-[38px] items-center justify-between border-b border-white/[0.035]">
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-[#555b66]">
                     Calories
                   </span>
-
                   <span className="flex items-center gap-1 text-[10px] font-semibold text-[#d6d8dc]">
                     <FiZap className="text-[11px] text-[#c8ff00]" />
                     {workout.caloriesBurned} kcal
                   </span>
                 </div>
 
-                <div className="flex `min-h-9.5 items-center justify-between">
+                <div className="flex min-h-[38px] items-center justify-between">
                   <span className="text-[9px] font-semibold uppercase tracking-wide text-[#555b66]">
                     Rating
                   </span>
-
                   <span className="flex items-center gap-1 text-[10px] font-semibold text-[#d6d8dc]">
                     <FiStar className="text-[11px] text-[#c8ff00]" />
                     {workout.rating}
@@ -158,24 +142,26 @@ const WorkoutDetails = async ({ params }: WorkoutDetailsProps) => {
                 </h2>
 
                 <ol className="mt-3 space-y-2.5">
-                  {workout.instructions.map((instruction, index) => (
-                    <li
-                      key={`${instruction}-${index}`}
-                      className="flex gap-2.5"
-                    >
-                      <span className="flex h-4.25 w-[17px] shrink-0 items-center justify-center rounded-full bg-[#c8ff00] text-[8px] font-black text-black">
-                        {index + 1}
-                      </span>
+                  {workout.instructions.map(
+                    (instruction, index) => (
+                      <li
+                        key={`${instruction}-${index}`}
+                        className="flex gap-2.5"
+                      >
+                        <span className="flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-full bg-[#c8ff00] text-[8px] font-black text-black">
+                          {index + 1}
+                        </span>
 
-                      <p className="text-[10px] leading-[1.55] text-[#747983]">
-                        {instruction}
-                      </p>
-                    </li>
-                  ))}
+                        <p className="text-[10px] leading-[1.55] text-[#747983]">
+                          {instruction}
+                        </p>
+                      </li>
+                    ),
+                  )}
                 </ol>
               </div>
-                  <WorkoutActions workout={workout} />
-              
+
+              <WorkoutActions workout={workout} />
             </div>
           </div>
         </section>

@@ -18,17 +18,23 @@ const WorkoutActions = ({ workout }: WorkoutActionsProps) => {
     saveWorkout,
   } = useFitLog();
 
-  const handleAddToPlan = () => {
-    const alreadyPlanned = plannedWorkouts.some(
-      (item) => item.id === workout.id,
-    );
+  const alreadyPlanned = plannedWorkouts.some(
+    (item) => item.id === workout.id,
+  );
 
+  const alreadySaved = savedWorkouts.some(
+    (item) => item.id === workout.id,
+  );
+
+  const planIsFull = plannedWorkouts.length >= 5;
+
+  const handleAddToPlan = () => {
     if (alreadyPlanned) {
       toast.info("This workout is already in today's plan.");
       return;
     }
 
-    if (plannedWorkouts.length >= 5) {
+    if (planIsFull) {
       toast.error("Today's plan can contain a maximum of 5 workouts.");
       return;
     }
@@ -38,10 +44,6 @@ const WorkoutActions = ({ workout }: WorkoutActionsProps) => {
   };
 
   const handleSaveForLater = () => {
-    const alreadySaved = savedWorkouts.some(
-      (item) => item.id === workout.id,
-    );
-
     if (alreadySaved) {
       toast.info("This workout is already saved.");
       return;
@@ -56,23 +58,31 @@ const WorkoutActions = ({ workout }: WorkoutActionsProps) => {
       <button
         type="button"
         onClick={handleAddToPlan}
-        className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[5px] bg-[#c8ff00] px-4 text-[9px] font-black uppercase tracking-wide text-black transition hover:bg-[#d5ff3d]"
+        disabled={planIsFull}
+        className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-[5px] px-4 text-[9px] font-black uppercase tracking-wide transition ${
+          planIsFull
+            ? "cursor-not-allowed bg-white/[0.08] text-[#555b66]"
+            : "bg-[#c8ff00] text-black hover:bg-[#d5ff3d]"
+        }`}
       >
         <FiPlus className="text-[12px]" />
-        Add to today&apos;s plan
+        {planIsFull ? "Plan Full" : "Add to today's plan"}
       </button>
 
       <button
         type="button"
         onClick={handleSaveForLater}
-        className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[5px] border border-white/12 bg-[#14171d] px-4 text-[9px] font-black uppercase tracking-wide text-[#aeb2ba] transition hover:border-[#c8ff00] hover:text-[#c8ff00]"
+        className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-[5px] border bg-[#14171d] px-4 text-[9px] font-black uppercase tracking-wide transition ${
+          alreadySaved
+            ? "border-[#c8ff00]/40 text-[#c8ff00]"
+            : "border-white/[0.12] text-[#aeb2ba] hover:border-[#c8ff00] hover:text-[#c8ff00]"
+        }`}
       >
         <FiBookmark className="text-[11px]" />
-        Save for later
+        {alreadySaved ? "Saved" : "Save for later"}
       </button>
     </div>
   );
 };
 
 export default WorkoutActions;
-

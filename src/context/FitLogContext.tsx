@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 import type { Workout } from "@/types/workout";
 
@@ -21,10 +27,74 @@ interface FitLogProviderProps {
   children: ReactNode;
 }
 
+const PLANNED_KEY = "fitlog-planned-workouts";
+const SAVED_KEY = "fitlog-saved-workouts";
+const DONE_KEY = "fitlog-done-workouts";
+
 export const FitLogProvider = ({ children }: FitLogProviderProps) => {
   const [plannedWorkouts, setPlannedWorkouts] = useState<Workout[]>([]);
   const [savedWorkouts, setSavedWorkouts] = useState<Workout[]>([]);
   const [doneWorkouts, setDoneWorkouts] = useState<number[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    const loadStoredData = () => {
+      try {
+        const storedPlanned = localStorage.getItem(PLANNED_KEY);
+        const storedSaved = localStorage.getItem(SAVED_KEY);
+        const storedDone = localStorage.getItem(DONE_KEY);
+
+        if (storedPlanned) {
+          setPlannedWorkouts(JSON.parse(storedPlanned));
+        }
+
+        if (storedSaved) {
+          setSavedWorkouts(JSON.parse(storedSaved));
+        }
+
+        if (storedDone) {
+          setDoneWorkouts(JSON.parse(storedDone));
+        }
+      } catch {
+        localStorage.removeItem(PLANNED_KEY);
+        localStorage.removeItem(SAVED_KEY);
+        localStorage.removeItem(DONE_KEY);
+      } finally {
+        setIsHydrated(true);
+      }
+    };
+
+    const timer = window.setTimeout(loadStoredData, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    localStorage.setItem(
+      PLANNED_KEY,
+      JSON.stringify(plannedWorkouts),
+    );
+  }, [plannedWorkouts, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    localStorage.setItem(
+      SAVED_KEY,
+      JSON.stringify(savedWorkouts),
+    );
+  }, [savedWorkouts, isHydrated]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    localStorage.setItem(
+      DONE_KEY,
+      JSON.stringify(doneWorkouts),
+    );
+  }, [doneWorkouts, isHydrated]);
 
   const addToPlan = (workout: Workout) => {
     setPlannedWorkouts((prev) => {
