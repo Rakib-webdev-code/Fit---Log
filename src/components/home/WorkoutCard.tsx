@@ -14,7 +14,7 @@ const WorkoutCard = ({ workout }: WorkoutCardProps) => {
       href={`/workouts/${workout.id}`}
       className="group block overflow-hidden rounded-2xl bg-[#15171D] transition-transform duration-300 hover:-translate-y-1"
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-4/3 overflow-hidden">
         <Image
           src={workout.image}
           alt={workout.name}
