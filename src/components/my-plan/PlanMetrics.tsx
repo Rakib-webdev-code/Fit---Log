@@ -36,7 +36,7 @@ const PlanMetrics = () => {
   ];
 
   return (
-    <div className="mt-8 rounded-2xl border border-white/[0.06] bg-[#15171D] p-3 sm:p-4">
+    <div className="mt-8 rounded-2xl border border-white/6 bg-[#15171D] p-3 sm:p-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {metrics.map((metric) => {
           const Icon = metric.icon;
@@ -44,7 +44,7 @@ const PlanMetrics = () => {
           return (
             <div
               key={metric.label}
-              className="rounded-xl border border-white/[0.06] bg-[#15171D] px-5 py-5"
+              className="rounded-xl border border-white/6 bg-[#15171D] px-5 py-5"
             >
               <div className="flex items-center justify-between">
                 <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#777c87]">
@@ -63,11 +63,11 @@ const PlanMetrics = () => {
       </div>
 
       <div className="mt-4 flex items-center gap-3 px-2">
-        <span className="h-px flex-1 bg-white/[0.08]" />
+        <span className="h-px flex-1 bg-white/8" />
 
         <span className="h-1.5 w-1.5 rounded-full bg-[#c8ff00]" />
 
-        <span className="h-px flex-1 bg-white/[0.08]" />
+        <span className="h-px flex-1 bg-white/8" />
       </div>
     </div>
   );
