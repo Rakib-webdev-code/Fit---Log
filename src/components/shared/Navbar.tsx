@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { FiAlignLeft, FiX } from "react-icons/fi";
 
 import logo from "@/assets/logo.png";
+import { useFitLog } from "@/context/FitLogContext";
 
 const navItems = [
   {
@@ -21,6 +22,7 @@ const navItems = [
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { plannedWorkouts, savedWorkouts } = useFitLog();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -79,14 +81,14 @@ const Navbar = () => {
             href="/my-plan"
             className="rounded-full bg-[#ccff00] px-3 py-2 text-xs font-bold text-black transition-transform hover:scale-105 sm:px-4 sm:text-sm"
           >
-            Plan <span>0</span>
+           Plan <span>{plannedWorkouts.length}</span>
           </Link>
 
           <Link
             href="/my-plan"
             className="rounded-full border border-white/30 px-3 py-2 text-xs font-bold text-white transition-all hover:border-[#ccff00] hover:text-[#ccff00] sm:px-4 sm:text-sm"
           >
-            Saved <span>0</span>
+            Saved <span>{savedWorkouts.length}</span>
           </Link>
         </div>
 
